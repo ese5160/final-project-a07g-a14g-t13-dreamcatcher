@@ -17,7 +17,7 @@
           <mxGeometry x="340" y="190" width="260" height="60" as="geometry" />
         </mxCell>
         <mxCell id="J9qqaUEDhFQQ4p0MvBKk-4" value="USART Hardware Detects Character" style="text;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
-          <mxGeometry x="370" y="200" width="230" height="40" as="geometry" />
+          <mxGeometry x="355" y="200" width="230" height="40" as="geometry" />
         </mxCell>
         <mxCell id="J9qqaUEDhFQQ4p0MvBKk-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-5" target="J9qqaUEDhFQQ4p0MvBKk-6">
           <mxGeometry relative="1" as="geometry" />
@@ -35,7 +35,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="J9qqaUEDhFQQ4p0MvBKk-7" value="circular_buf_put(cbufRx)&lt;div&gt;&lt;div&gt;circular_buf_put(cbufRx, latestRx);&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="310" y="510" width="320" height="60" as="geometry" />
+          <mxGeometry x="360" y="510" width="220" height="60" as="geometry" />
         </mxCell>
         <mxCell id="J9qqaUEDhFQQ4p0MvBKk-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-8" target="J9qqaUEDhFQQ4p0MvBKk-9">
           <mxGeometry relative="1" as="geometry" />
