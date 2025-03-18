@@ -1,9 +1,51 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.1.1">
   <diagram name="Page-1" id="XLpaBEAwb_9NrUKoJNVA">
-    <mxGraphModel>
+    <mxGraphModel dx="1026" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-1" target="J9qqaUEDhFQQ4p0MvBKk-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-1" value="User Types Character" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="410" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-3" target="J9qqaUEDhFQQ4p0MvBKk-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-3" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-4" value="USART Hardware Detects Character" style="text;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="370" y="200" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-5" target="J9qqaUEDhFQQ4p0MvBKk-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-5" value="USART Interrupt Triggered&lt;div&gt;usart_read_callback()&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="290" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-6" target="J9qqaUEDhFQQ4p0MvBKk-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-6" value="usart_read_callback() Called&lt;div&gt;The callback function &lt;code data-end=&quot;557&quot; data-start=&quot;534&quot;&gt;usart_read_callback()&lt;/code&gt; is executed.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="400" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-7" target="J9qqaUEDhFQQ4p0MvBKk-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-7" value="circular_buf_put(cbufRx)&lt;div&gt;&lt;div&gt;circular_buf_put(cbufRx, latestRx);&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="510" width="320" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="J9qqaUEDhFQQ4p0MvBKk-8" target="J9qqaUEDhFQQ4p0MvBKk-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-8" value="Data Stored in rxCharacterBuffer[]&lt;div&gt;&lt;code data-end=&quot;967&quot; data-start=&quot;946&quot;&gt;( rxCharacterBuffer[]&lt;/code&gt; using &lt;code data-end=&quot;994&quot; data-start=&quot;974&quot;&gt;circular_buf_put() )&lt;/code&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="347.5" y="620" width="245" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="J9qqaUEDhFQQ4p0MvBKk-9" value="&lt;p data-end=&quot;1081&quot; data-start=&quot;1046&quot;&gt;&lt;span data-end=&quot;1079&quot; data-start=&quot;1046&quot;&gt;Data Available for Processing&lt;/span&gt;&lt;/p&gt;&lt;p data-end=&quot;1081&quot; data-start=&quot;1046&quot;&gt;&lt;span data-end=&quot;1079&quot; data-start=&quot;1046&quot;&gt;SerialConsoleReadCharacter()&lt;/span&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="347.5" y="720" width="245" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
