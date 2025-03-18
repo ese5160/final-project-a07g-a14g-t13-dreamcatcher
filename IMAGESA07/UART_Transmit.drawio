@@ -1,9 +1,48 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36" version="26.1.1">
   <diagram name="Page-1" id="e95_v6SylL-6Y1D6uxn7">
-    <mxGraphModel>
+    <mxGraphModel dx="1026" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="65u15_AS2qSn8SFj54-6-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-1" target="65u15_AS2qSn8SFj54-6-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-1" value="Program Adds String to cbufTx&lt;div&gt;&lt;div&gt;SerialConsoleWriteString(&quot;Test Message&quot;);&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-2" target="65u15_AS2qSn8SFj54-6-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-2" value="usart_write_callback() Called&lt;div&gt;&lt;code data-end=&quot;1536&quot; data-start=&quot;1512&quot;&gt;usart_write_callback()&lt;/code&gt; is triggered.&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="140" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-3" target="65u15_AS2qSn8SFj54-6-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-3" value="circular_buf_get(cbufTx)&lt;div&gt;&lt;div&gt;circular_buf_get(cbufTx, (uint8_t *)&amp;amp;latestTx);&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="240" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-4" target="65u15_AS2qSn8SFj54-6-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-4" value="usart_write_buffer_job()&lt;div&gt;&lt;div&gt;usart_write_buffer_job(&amp;amp;usart_instance, (uint8_t *)&amp;amp;latestTx, 1);&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="340" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-5" target="65u15_AS2qSn8SFj54-6-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-5" value="Character Transmitted&lt;div&gt;over the serial line&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="460" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="65u15_AS2qSn8SFj54-6-6" target="65u15_AS2qSn8SFj54-6-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-6" value="Character Displayed on Terminal&lt;div&gt;&lt;code data-end=&quot;2319&quot; data-start=&quot;2295&quot;&gt;usart_write_callback()&lt;/code&gt; is called again for the next character (if available).&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="580" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="65u15_AS2qSn8SFj54-6-7" value="&lt;meta charset=&quot;utf-8&quot;&gt;Process Continues Until Buffer is Empty" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="680" width="280" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
