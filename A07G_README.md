@@ -154,6 +154,67 @@ vApplicationDaemonTaskStartupHook()
 
 ## 3. Debug Logger Module
 
+```c
+void LogMessage(enum eDebugLogLevels level, const char *format, ...)
+{
+    // Only log if the level is equal to or higher than the current debug level
+    if (level < currentDebugLevel) {
+        return;
+    }
+
+    char buffer[256];
+    va_list args;
+    va_start(args, format);
+
+    // Format the message using vsnprintf()
+    vsnprintf(buffer, sizeof(buffer), format, args);
+
+    // Write the message to the serial console
+    SerialConsoleWriteString(buffer);
+
+    va_end(args);
+}
+```
+
+
+```c
+void usart_read_callback(struct usart_module *const usart_module)
+{
+    // Add the received character to the circular buffer
+    circular_buf_put(cbufRx, latestRx);
+
+    // Kick off another read operation to continuously receive data
+    usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1);
+}
+```
+
+
+```c
+#include "SerialConsole.h"
+
+void testLogger(void) {
+    int sensorTemperature = 75;
+
+    setLogLevel(LOG_ERROR_LVL);
+
+    LogMessage(LOG_INFO_LVL, "Starting test...\r\n"); // Won't print
+    LogMessage(LOG_ERROR_LVL, "System error detected!\r\n"); // Will print
+    LogMessage(LOG_FATAL_LVL, "Temperature over %d degrees!\r\n", sensorTemperature); // Will print
+}
+
+int main(void) {
+    system_init();
+    InitializeSerialConsole();
+
+    testLogger();
+
+    while (1) {
+        // Main loop
+    }
+
+    return 0;
+}
+```
 
 ## 4. Wiretap the convo!
 
