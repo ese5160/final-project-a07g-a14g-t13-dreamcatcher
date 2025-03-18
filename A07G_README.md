@@ -132,6 +132,7 @@ usart_enable_callback(&usart_instance, USART_CALLBACK_BUFFER_RECEIVED);
 4. The character is transmitted using `usart_write_buffer_job()`.  
 5. Characters are shown on the terminal.  
 
+![UART_Transmit](IMAGESA07/UART_Transmit.png)
 ---
 
 ### 10. What is done on the function `StartTasks()` in main.c? How many threads are started?
