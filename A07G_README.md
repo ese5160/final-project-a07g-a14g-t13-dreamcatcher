@@ -115,7 +115,7 @@ usart_enable_callback(&usart_instance, USART_CALLBACK_BUFFER_RECEIVED);
 4. The character is added to `cbufRx` using `circular_buf_put()`.  
 5. The character is stored in `rxCharacterBuffer[]`.  
 
-![UART_Receive](IMAGESA07/%20UART_receive.png)
+![UART_Receive](IMAGESA07/UART_receive.png)
 
 ---
 
