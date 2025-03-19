@@ -153,6 +153,21 @@ void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 {
     // Todo: Implement Debug Logger
 	// More detailed descriptions are in header file
+	 if (level < currentDebugLevel) {
+		 return;
+	 }
+
+	 char buffer[256];
+	 va_list args;
+	 va_start(args, format);
+
+	 // Format the message using vsnprintf()
+	 vsnprintf(buffer, sizeof(buffer), format, args);
+
+	 // Write the message to the serial console
+	 SerialConsoleWriteString(buffer);
+
+	 va_end(args);
 }
 
 /*
@@ -221,6 +236,11 @@ static void configure_usart_callbacks(void)
 void usart_read_callback(struct usart_module *const usart_module)
 {
 	// ToDo: Complete this function 
+	// Add the received character to the circular buffer
+	circular_buf_put(cbufRx, latestRx);
+
+	// Kick off another read operation to continuously receive data
+	usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1);
 }
 
 /**************************************************************************/ 
