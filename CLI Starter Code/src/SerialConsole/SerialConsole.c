@@ -148,6 +148,7 @@ void setLogLevel(enum eDebugLogLevels debugLevel)
 
 /**
  * @brief Logs a message at the specified debug level.
+ * @param LogMessage log the message based on the it's level
  */
 void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 {
