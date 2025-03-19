@@ -216,7 +216,13 @@ int main(void) {
 }
 ```
 
-!
+![Serial_Output](IMAGESA07/Debug_Logger_Output.png)
+
+Serial Monitor Output
+
+![Serial_Output](IMAGESA07/Logger_Output_Second.png)
+
+Serial Monitor Output from the to check custom case
 
 ## 4. Wiretap the convo!
 
