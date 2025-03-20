@@ -55,39 +55,6 @@ static void FreeRTOS_read(char *character);
 
 
 /******************************************************************************
- * Command Definitions
- ******************************************************************************/
-
-/**
- * @brief Command definition for "version".
- *
- * The user will type "version" to display the firmware version.
- */
-static const CLI_Command_Definition_t xVersionCommand =
-{
-    "version",                               /* The command string to type. */
-    "version: Prints the firmware version.\r\n",  /* Help text. */
-    CLI_VersionCommand,                      /* The function to run. */
-    0                                        /* No parameters needed. */
-};
-
-/**
- * @brief Command definition for "ticks".
- *
- * The user will type "ticks" to display the FreeRTOS tick count.
- */
-static const CLI_Command_Definition_t xTicksCommand =
-{
-    "ticks",
-    "ticks: Prints the current FreeRTOS tick count.\r\n",
-    CLI_TicksCommand,
-    0
-};
-
-
-
-
-/******************************************************************************
  * Callback Functions
  ******************************************************************************/
 /**
@@ -127,6 +94,38 @@ TickType_t ticks = xTaskGetTickCount();
 snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Ticks: %u\r\n", (unsigned)ticks);
 return pdFALSE;
 }
+
+
+/******************************************************************************
+ * Command Definitions
+ ******************************************************************************/
+
+/**
+ * @brief Command definition for "version".
+ *
+ * The user will type "version" to display the firmware version.
+ */
+static const CLI_Command_Definition_t xVersionCommand =
+{
+    "version",                               /* The command string to type. */
+    "version: Prints the firmware version.\r\n",  /* Help text. */
+    CLI_VersionCommand,                      /* The function to run. */
+    0                                        /* No parameters needed. */
+};
+
+/**
+ * @brief Command definition for "ticks".
+ *
+ * The user will type "ticks" to display the FreeRTOS tick count.
+ */
+static const CLI_Command_Definition_t xTicksCommand =
+{
+    "ticks",
+    "ticks: Prints the current FreeRTOS tick count.\r\n",
+    CLI_TicksCommand,
+    0
+};
+
 
 
 /******************************************************************************
