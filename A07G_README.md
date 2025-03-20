@@ -226,6 +226,68 @@ Serial Monitor Output from the to check custom case
 
 ## 4. Wiretap the convo!
 
+
+## 1. Which Nets to Hook the Logic Analyzer To : PB10 (UART_TX)
+Because the code in **SerialConsole.c** configures a standard UART (SERCOM) for communication with the EDBG, you need the following signals:
+
+1. **SAMD21/SAMW25 TX** – This is the line going from the microcontroller to the EDBG (the EDBG’s RX pin) PB11.  
+2. **SAMD21/SAMW25 RX** – This is the line going from the EDBG to the microcontroller (the EDBG’s TX pin) PB10.  
+3. **Ground Reference** – Common GND is required so the logic analyzer readings have the same reference.
+
+From the code snippet:
+
+```c
+config_usart.baudrate      = 115200;
+config_usart.mux_setting   = EDBG_CDC_SERCOM_MUX_SETTING;
+config_usart.pinmux_pad0   = EDBG_CDC_SERCOM_PINMUX_PAD0;
+config_usart.pinmux_pad1   = EDBG_CDC_SERCOM_PINMUX_PAD1;
+config_usart.pinmux_pad2   = EDBG_CDC_SERCOM_PINMUX_PAD2;
+config_usart.pinmux_pad3   = EDBG_CDC_SERCOM_PINMUX_PAD3;
+```
+
+Those `pinmux_padX` macros map SERCOM pins to actual device pins that connect to the EDBG’s TX/RX lines. Physically, on the SAMW25 Xplained board, these are the nets that go directly to the on-board EDBG chip.
+
+![WireTapPin](IMAGESA07/WireTapPin.png)
+[Reference for PIN: Pg 10](https://drive.google.com/drive/folders/1OKUS5nEYTnFtutdxYD2_j58JUhIHwzTN)
+
+[!SALEA_Output](IMAGESA07/SALEAE_UART.png)
+![SALEA_Settings](IMAGESA07/SALEAE_ASYNC_Settings.png)
+[LOGIG_ANALYSER_CAPTURE_FILE](IMAGESA07/USART_LOGIC_ANYL.sal)
+
+---
+
+## 2. Where to Attach / Solder on the Board
+Depending on your hardware revision, you have a few options:
+
+1. **Test Points or Header**: Many of the Xplained boards have small test pads or an unpopulated header that breaks out the SERCOM lines (TX/RX). Inspect the board silkscreen or the schematic to find “EDBG TX,” “EDBG RX,” or “SERCOM4 TX,” “SERCOM4 RX.”  
+2. **Extension Headers**: Some Xplained boards route these signals to an EXT (extension) header or similar. If so, you can hook your Saleae leads on those header pins.  
+3. **Direct Solder**: If you do not have a convenient header, you can carefully tack-solder thin wires to the appropriate pads or pins on the SAMW25 or EDBG side, whichever is easier to reach. Be sure to verify the correct pin with the board schematic.
+
+In all cases, also locate a **GND pin or test point** and connect that to the Saleae’s ground line.
+
+---
+
+## 3. Critical Logic Analyzer Settings
+When using the Saleae Logic software to decode UART traffic, configure:
+
+1. **Protocol**: UART (Asynchronous Serial).  
+2. **Baud Rate**: 115200 (from `config_usart.baudrate`).  
+3. **Data Format**: 8 data bits, No parity, 1 stop bit (8N1).  
+4. **Voltage Levels**: 3.3 V logic.  
+   - Ensure your Saleae is set to measure 3.3 V signals and not 5 V.  
+5. **Sampling Rate**: At least 5× to 10× the baud rate. A good starting point is 1 MHz.  
+
+In most contexts for SAMD21/SAMW25 devices, the idle state of TX is high (typical 3.3 V UART), so the Saleae should see a high line when no data is being sent.
+
+---
+
+### Quick Summary
+- **Tap TX, RX, and GND** lines between the SAMW25 and EDBG.  
+- **Look for** small test pads or an unpopulated header labeled “TX” / “RX” or “SERCOM4.”  
+- **Configure** the logic analyzer for 115200 baud, 8 bits, no parity, 1 stop, ~1 MHz sample rate, 3.3 V logic.
+
+These steps let you decode the exact commands and data sent back and forth between the SAMW25 and EDBG, and the same approach will work on your custom PCB once you know which UART pins are used there.
+
 ## 5. Complete the CLI
 
 
