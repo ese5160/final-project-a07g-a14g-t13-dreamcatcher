@@ -247,19 +247,21 @@ config_usart.pinmux_pad3   = EDBG_CDC_SERCOM_PINMUX_PAD3;
 
 Those `pinmux_padX` macros map SERCOM pins to actual device pins that connect to the EDBG’s TX/RX lines. Physically, on the SAMW25 Xplained board, these are the nets that go directly to the on-board EDBG chip.
 
-![WireTapPin](IMAGESA07/WireTapPin.png)
-[Reference for PIN: Pg 10](https://drive.google.com/drive/folders/1OKUS5nEYTnFtutdxYD2_j58JUhIHwzTN)
 
 ---
 
 ### 2. Where to Attach / Solder on the Board: : PB10 (UART_TX)
 Depending on your hardware revision, you have a few options:
 
-1. **Test Points or Header**: Many of the Xplained boards have small test pads or an unpopulated header that breaks out the SERCOM lines (TX/RX). Inspect the board silkscreen or the schematic to find “EDBG TX,” “EDBG RX,” or “SERCOM4 TX,” “SERCOM4 RX.”  
-2. **Extension Headers**: Some Xplained boards route these signals to an EXT (extension) header or similar. If so, you can hook your Saleae leads on those header pins.  
-3. **Direct Solder**: If you do not have a convenient header, you can carefully tack-solder thin wires to the appropriate pads or pins on the SAMW25 or EDBG side, whichever is easier to reach. Be sure to verify the correct pin with the board schematic.
+It also have UART DEBUG connetions.
 
-In all cases, also locate a **GND pin or test point** and connect that to the Saleae’s ground line.
+#### Embedded Debugger Implementation
+SAM W25 Xplained Pro contains an Embedded Debugger (EDBG) that can be used to program and debug the ATSAMW25H18-MR510PB using Serial Wire Debug (SWD). The Embedded Debugger also include a Virtual Com port interface over UART, an Atmel Data Gateway Interface over SPI and TWI and it monitors four of the SAM W25 GPIOs. Atmel Studio can be used as a front end for the Embedded Debugger.
+
+In all cases, we should also locate a **GND pin or Ground test point** and connect that to the Saleae’s ground line.
+
+![WireTapPin](IMAGESA07/WireTapPin.png)
+[Reference for PIN: Pg 10](https://drive.google.com/drive/folders/1OKUS5nEYTnFtutdxYD2_j58JUhIHwzTN)
 
 ---
 
@@ -385,7 +387,184 @@ void usart_read_callback(struct usart_module *const usart_module)
 
 ```
 
+[CLI Starter Code](https://github.com/ese5160/ese5160s25-final-project-a07g-a14g-final-project-a07g-a14g-skeleton/blob/f630d9191c0a50245e7548707b4272f620e4db59/CLI%20Starter%20Code)
 
 ## 6. Add CLI commands
+
+```c
+/******************************************************************************
+ * Includes
+ ******************************************************************************/
+#include "CliThread.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "SerialConsole.h"
+#include "FreeRTOS_CLI.h"
+
+/** 
+ * @brief Macro for firmware version string 
+ */
+#define FIRMWARE_VERSION  "0.0.1"
+
+/******************************************************************************
+ * Command Definitions
+ ******************************************************************************/
+
+/**
+ * @brief Command definition for "version".
+ *
+ * The user will type "version" to display the firmware version.
+ */
+static const CLI_Command_Definition_t xVersionCommand =
+{
+    "version",                               /* The command string to type. */
+    "version: Prints the firmware version.\r\n",  /* Help text. */
+    CLI_VersionCommand,                      /* The function to run. */
+    0                                        /* No parameters needed. */
+};
+
+/**
+ * @brief Command definition for "ticks".
+ *
+ * The user will type "ticks" to display the FreeRTOS tick count.
+ */
+static const CLI_Command_Definition_t xTicksCommand =
+{
+    "ticks",
+    "ticks: Prints the current FreeRTOS tick count.\r\n",
+    CLI_TicksCommand,
+    0
+};
+
+
+```
+
+
+```c
+/**
+ * @brief CLI callback for the "version" command.
+ *
+ * Prints the firmware version number as defined by #FIRMWARE_VERSION.
+ *
+ * @param[in]  pcWriteBuffer   Output buffer for the CLI response.
+ * @param[in]  xWriteBufferLen Length of pcWriteBuffer.
+ * @param[in]  pcCommandString The full command string as typed by the user (unused).
+ * @return     pdFALSE indicating there is no more output to return.
+ */
+BaseType_t CLI_VersionCommand(int8_t *pcWriteBuffer,
+                              size_t xWriteBufferLen,
+                              const int8_t *pcCommandString)
+{
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen,
+             "Firmware Version: %s\r\n", FIRMWARE_VERSION);
+    return pdFALSE; 
+}
+
+/**
+ * @brief CLI callback for the "ticks" command.
+ *
+ * Prints the current FreeRTOS tick count (the number of ticks since the scheduler started).
+ *
+ * @param[in]  pcWriteBuffer   Output buffer for the CLI response.
+ * @param[in]  xWriteBufferLen Length of pcWriteBuffer.
+ * @param[in]  pcCommandString The full command string as typed by the user (unused).
+ * @return     pdFALSE indicating there is no more output to return.
+ */
+BaseType_t CLI_TicksCommand(int8_t *pcWriteBuffer,
+                            size_t xWriteBufferLen,
+                            const int8_t *pcCommandString)
+{
+    TickType_t ticks = xTaskGetTickCount();
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Ticks: %u\r\n", (unsigned)ticks);
+    return pdFALSE;
+}
+```
+
+
+```c
+void vCommandConsoleTask(void *pvParameters)
+{
+    // Create counting semaphore, etc. (already present)
+
+    // Register your existing commands
+    FreeRTOS_CLIRegisterCommand(&xClearScreen);
+    FreeRTOS_CLIRegisterCommand(&xResetCommand);
+
+    // REGISTER YOUR NEW COMMANDS
+    FreeRTOS_CLIRegisterCommand(&xVersionCommand);
+    FreeRTOS_CLIRegisterCommand(&xTicksCommand);
+
+    // ... rest of your CLI loop remains unchanged ...
+}
+
+```
+
+
+```c
+#include "CliThread.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "SerialConsole.h"
+#include "FreeRTOS_CLI.h"
+
+#define FIRMWARE_VERSION "0.0.1"
+
+/*-----------------------------------------------------------*/
+// Commands
+static const CLI_Command_Definition_t xVersionCommand =
+{
+    "version",
+    "version: Prints the firmware version.\r\n",
+    CLI_VersionCommand,
+    0
+};
+
+static const CLI_Command_Definition_t xTicksCommand =
+{
+    "ticks",
+    "ticks: Prints the current FreeRTOS tick count.\r\n",
+    CLI_TicksCommand,
+    0
+};
+
+/*-----------------------------------------------------------*/
+// Callbacks
+BaseType_t CLI_VersionCommand(int8_t *pcWriteBuffer,
+                              size_t xWriteBufferLen,
+                              const int8_t *pcCommandString)
+{
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen,
+             "Firmware Version: %s\r\n", FIRMWARE_VERSION);
+    return pdFALSE; 
+}
+
+BaseType_t CLI_TicksCommand(int8_t *pcWriteBuffer,
+                            size_t xWriteBufferLen,
+                            const int8_t *pcCommandString)
+{
+    TickType_t ticks = xTaskGetTickCount();
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen,
+             "Ticks: %u\r\n", (unsigned)ticks);
+    return pdFALSE;
+}
+
+/*-----------------------------------------------------------*/
+void vCommandConsoleTask(void *pvParameters)
+{
+    // ... existing code that sets up xRxSemaphore, etc. ...
+
+    // Register all commands:
+    FreeRTOS_CLIRegisterCommand(&xClearScreen);
+    FreeRTOS_CLIRegisterCommand(&xResetCommand);
+    FreeRTOS_CLIRegisterCommand(&xVersionCommand);
+    FreeRTOS_CLIRegisterCommand(&xTicksCommand);
+
+    // ... rest of your CLI loop ...
+}
+
+```
+
 
 ## 7. Using Percepio

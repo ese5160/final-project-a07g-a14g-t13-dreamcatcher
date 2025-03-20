@@ -20,7 +20,11 @@
  ******************************************************************************/
 SemaphoreHandle_t xRxSemaphore = NULL;  // Remove 'static'
 
-/******************************************************************************
+/** 
+ * @brief Macro for firmware version string 
+ */
+#define FIRMWARE_VERSION  "0.0.1"
+
 
 /******************************************************************************
  * Variables
@@ -47,9 +51,83 @@ static const CLI_Command_Definition_t xResetCommand =
  * Forward Declarations
  ******************************************************************************/
 static void FreeRTOS_read(char *character);
+
+
+
+/******************************************************************************
+ * Command Definitions
+ ******************************************************************************/
+
+/**
+ * @brief Command definition for "version".
+ *
+ * The user will type "version" to display the firmware version.
+ */
+static const CLI_Command_Definition_t xVersionCommand =
+{
+    "version",                               /* The command string to type. */
+    "version: Prints the firmware version.\r\n",  /* Help text. */
+    CLI_VersionCommand,                      /* The function to run. */
+    0                                        /* No parameters needed. */
+};
+
+/**
+ * @brief Command definition for "ticks".
+ *
+ * The user will type "ticks" to display the FreeRTOS tick count.
+ */
+static const CLI_Command_Definition_t xTicksCommand =
+{
+    "ticks",
+    "ticks: Prints the current FreeRTOS tick count.\r\n",
+    CLI_TicksCommand,
+    0
+};
+
+
+
+
 /******************************************************************************
  * Callback Functions
  ******************************************************************************/
+/**
+ * @brief CLI callback for the "version" command.
+ *
+ * Prints the firmware version number as defined by #FIRMWARE_VERSION.
+ *
+ * @param[in]  pcWriteBuffer   Output buffer for the CLI response.
+ * @param[in]  xWriteBufferLen Length of pcWriteBuffer.
+ * @param[in]  pcCommandString The full command string as typed by the user (unused).
+ * @return     pdFALSE indicating there is no more output to return.
+ */
+BaseType_t CLI_VersionCommand(int8_t *pcWriteBuffer,
+    size_t xWriteBufferLen,
+    const int8_t *pcCommandString)
+{
+snprintf((char *)pcWriteBuffer, xWriteBufferLen,
+"Firmware Version: %s\r\n", FIRMWARE_VERSION);
+return pdFALSE; 
+}
+
+/**
+* @brief CLI callback for the "ticks" command.
+*
+* Prints the current FreeRTOS tick count (the number of ticks since the scheduler started).
+*
+* @param[in]  pcWriteBuffer   Output buffer for the CLI response.
+* @param[in]  xWriteBufferLen Length of pcWriteBuffer.
+* @param[in]  pcCommandString The full command string as typed by the user (unused).
+* @return     pdFALSE indicating there is no more output to return.
+*/
+BaseType_t CLI_TicksCommand(int8_t *pcWriteBuffer,
+  size_t xWriteBufferLen,
+  const int8_t *pcCommandString)
+{
+TickType_t ticks = xTaskGetTickCount();
+snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Ticks: %u\r\n", (unsigned)ticks);
+return pdFALSE;
+}
+
 
 /******************************************************************************
  * CLI Thread
@@ -66,6 +144,8 @@ void vCommandConsoleTask(void *pvParameters)
 
     FreeRTOS_CLIRegisterCommand(&xClearScreen);
     FreeRTOS_CLIRegisterCommand(&xResetCommand);
+    FreeRTOS_CLIRegisterCommand(&xVersionCommand);
+    FreeRTOS_CLIRegisterCommand(&xTicksCommand);
 
     uint8_t cRxedChar[2], cInputIndex = 0;
     BaseType_t xMoreDataToFollow;
