@@ -11,6 +11,18 @@
 #include "asf.h"
 #include "SerialConsole.h"
 #include "FreeRTOS_CLI.h"
+#include "semphr.h"  // For SemaphoreHandle_t
+
+//Without this the xRxSemaphore was being undeclared (ABHIK)
+#ifdef __cplusplus
+extern "C" {
+	#endif
+
+	extern SemaphoreHandle_t xRxSemaphore;
+
+	#ifdef __cplusplus
+}
+#endif
 
 
 #define CLI_TASK_SIZE	256		///<STUDENT FILL

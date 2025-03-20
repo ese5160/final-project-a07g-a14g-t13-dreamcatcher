@@ -57,24 +57,11 @@ volatile uint8_t rx_buffer[MAX_RX_BUFFER_LENGTH];
 
 volatile char buffer[7];
 
-// void testLogger(void) {
-// 	int sensorTemperature = 75;
-
-// 	setLogLevel(LOG_ERROR_LVL);
-
-// 	LogMessage(LOG_INFO_LVL, "Starting test...\r\n"); // Won't print
-// 	LogMessage(LOG_ERROR_LVL, "System error detected!\r\n"); // Will print
-// 	LogMessage(LOG_FATAL_LVL, "Temperature over %d degrees!\r\n", sensorTemperature); // Will print
-// }
-
 int main(void)
 {
 	// Board Initialization -- Code that initializes the HW and happens only once
 	system_init();
 	InitializeSerialConsole();
-
-		
-	// testLogger();
 
 	/* Insert application code here, after the board has been initialized. */
 

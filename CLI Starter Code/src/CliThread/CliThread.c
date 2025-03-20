@@ -16,6 +16,13 @@
  ******************************************************************************/
 
 /******************************************************************************
+ * Globals / Statics (ABHIK)
+ ******************************************************************************/
+SemaphoreHandle_t xRxSemaphore = NULL;  // Remove 'static'
+
+/******************************************************************************
+
+/******************************************************************************
  * Variables
  ******************************************************************************/
 static int8_t *const pcWelcomeMessage =
@@ -50,6 +57,11 @@ static void FreeRTOS_read(char *character);
 
 void vCommandConsoleTask(void *pvParameters)
 {
+    // Create a counting semaphore with a max count that matches or exceeds
+    // your RX ring buffer size. Initial count is 0. (ABHIK)
+    xRxSemaphore = xSemaphoreCreateCounting(512, 0);
+    configASSERT(xRxSemaphore != NULL);	
+	
     // REGISTER COMMANDS HERE
 
     FreeRTOS_CLIRegisterCommand(&xClearScreen);
@@ -216,8 +228,21 @@ void vCommandConsoleTask(void *pvParameters)
  *****************************************************************************/
 static void FreeRTOS_read(char *character)
 {
+	// Wait indefinitely until the semaphore is given by the USART read callback (ABHIK)
+	if (pdTRUE == xSemaphoreTake(xRxSemaphore, portMAX_DELAY))
+	{
+		// We now expect at least 1 character in the ring buffer.
+		// Pull one from the ring buffer with SerialConsoleReadCharacter().
+		// That returns 0 on success, -1 if the buffer is empty.
+		while (SerialConsoleReadCharacter((uint8_t*)character) == -1)
+		{
+			// Rare edge case: if the interrupt signaled but the buffer is empty,
+			// loop briefly (should rarely happen unless concurrency is involved).
+			// In practice, this loop ends immediately with a character.
+		}
+	}
     // ToDo: Complete this function
-    vTaskSuspend(NULL); // We suspend ourselves. Please remove this when doing your code
+    //vTaskSuspend(NULL); // We suspend ourselves. Please remove this when doing your code
 }
 
 /******************************************************************************

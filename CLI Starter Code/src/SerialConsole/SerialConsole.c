@@ -27,6 +27,7 @@
  * Includes
  ******************************************************************************/
 #include "SerialConsole.h"
+#include "CliThread.h"   // to access xRxSemaphore (or extern xRxSemaphore)
 
 /******************************************************************************
  * Defines
@@ -232,6 +233,8 @@ static void configure_usart_callbacks(void)
  * @fn			void usart_read_callback(struct usart_module *const usart_module)
  * @brief		Callback called when the system finishes receives all the bytes requested from a UART read job
 		 Students to fill out. Please note that the code here is dummy code. It is only used to show you how some functions work.
+		 New: Callback invoked after receiving one character. Puts character into ring buffer and signals the CLI thread via semaphore.
+ * @param[in] usart_module Pointer to the USART module (interrupt context).
  * @note
  *****************************************************************************/
 void usart_read_callback(struct usart_module *const usart_module)
@@ -242,6 +245,11 @@ void usart_read_callback(struct usart_module *const usart_module)
 
 	// Kick off another read operation to continuously receive data
 	usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1);
+	
+	// Notify the CLI thread a character is available
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xSemaphoreGiveFromISR(xRxSemaphore, &xHigherPriorityTaskWoken);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 /**************************************************************************/ 
