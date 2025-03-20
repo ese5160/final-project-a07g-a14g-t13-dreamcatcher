@@ -1,0 +1,37 @@
+<SignedLicense>
+  <License>
+    <HashedKey>X+27TIN7spYcck7Uh4S53UTNH7U=</HashedKey>
+    <Product>Tracealyzer - Academic Edition</Product>
+    <ProductId>{CCC61B47-F14E-4D71-80B3-D3DCA2E62271}</ProductId>
+    <EditionId>{20478608-C79A-48A9-A969-35541787D2C0}</EditionId>
+    <LicensedTo>University of Pennsylvania</LicensedTo>
+    <ExpiresOn>2026-01-20</ExpiresOn>
+    <SupportThrough>2026-01-20</SupportThrough>
+    <Components>
+      <Component>
+        <Id>{B1CF5B88-ADA5-4B2A-81AF-257054106205}</Id>
+        <Name>Tracealyzer Application</Name>
+      </Component>
+      <Component>
+        <Id>{469D108A-B824-4C27-99ED-98B8629BFCE0}</Id>
+        <Name>FreeRTOS Support</Name>
+      </Component>
+      <Component>
+        <Id>{0DF17053-CA0D-4873-9D6F-C2789FF10230}</Id>
+        <Name>Zephyr Support</Name>
+      </Component>
+      <Component>
+        <Id>{B1E55B14-D79B-4596-ACF6-46169D63EFDF}</Id>
+        <Name>BareMetal Support</Name>
+      </Component>
+    </Components>
+    <Nodes>
+      <Node>
+        <Id>AH4Ou21O5/ZIBcgEWZeoksTajA199e4Xlhw06Yn/tvQ2kmbPiujZzcYZ5LuulRkWRFJy0V9bHBkCnqIfe+Rcag==</Id>
+        <Name>MOR100B-13</Name>
+      </Node>
+    </Nodes>
+  </License>
+  <Signature>LO9CddXqzTYNFxVX3Oj0Nj9AtWVaKnjESVUWhfhjtrwZGfSFv3mlHH1kmGN9OjXDUzelC9d82WEyDuL0ve9r5W03NTqBZQr0jhIaUUtyp+6rKHrGhUHuZRKrU8QPytBLIvuG0Mug/RE3XVKZAjNNs9hM9H3QHHsXhwVBpDB/oZVT8+XNk9OhxyUvfA21vcvvLl+HpsJjmhe4mEgl3PvTEWWDsAtOwrRQFBiiJDAWhceNn+hLuCBN2OS0m2RTV/uDF7ubF3A0RDP1U/IH1Th3hWHXm5cH1cSzOc3SYJY/hfrsh5w1yykPMoES77zZ+uYpXTSyTwj0NcNYl8RM2IQY/Q==</Signature>
+  <Signature2>eYbiF3SVUdcpcddusZvZ1dJq/dPVYFL87XuII7Y3/YGX29DXLJyAFCIe4+02RhSsPV+//2CGtpd44Aa195JLbBnOqDBM718Auf/5T3m6x5xaJ62XnFGePWOz5MV5FuH/cWuBaM/EkcCDZXbF0Xr9CnQKBAiNLF0tYhO1/2+8X2kExPzd0h74rh7I8k+LmFU62ExBDhvdIRQffxmoFp5VMxJStuSsB/eIyzUDYspSXGJQCMOBsQ1YFQveRCS/r31D7ZLZVb9d4dgWDpDkQ4JmnOFWfFttXXoGKGSenWKGokSMEjb+iOL21mYdvxNZY0l4TK8fJe48y6fh2yE1/v7qcQ==</Signature2>
+</SignedLicense>
