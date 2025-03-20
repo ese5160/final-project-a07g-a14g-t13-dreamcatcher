@@ -261,7 +261,7 @@ SAM W25 Xplained Pro contains an Embedded Debugger (EDBG) that can be used to pr
 In all cases, we should also locate a **GND pin or Ground test point** and connect that to the Saleae’s ground line.
 
 ![WireTapPin](IMAGESA07/WireTapPin.png)
-[Reference for PIN: Pg 10](https://drive.google.com/drive/folders/1OKUS5nEYTnFtutdxYD2_j58JUhIHwzTN)
+[Reference for PIN: Pg 10](hhttps://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/UserGuides/Atmel-42463-SAM-W25-Xplained-Pro_UserGuide.pdf)
 
 ---
 
