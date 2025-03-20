@@ -7,7 +7,7 @@
 * Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc): A07 (CLI)
 
 ## 0. Install Percepio
-
+![Percepio](IMAGESA07/Percepio_License.png)
 
 ## 1. Software Architecture
 
