@@ -227,7 +227,7 @@ Serial Monitor Output from the to check custom case
 ## 4. Wiretap the convo!
 
 
-## 1. Which Nets to Hook the Logic Analyzer To?
+### 1. Which Nets to Hook the Logic Analyzer To?
 Because the code in **SerialConsole.c** configures a standard UART (SERCOM) for communication with the EDBG, we need the following signals:
 
 1. **SAMD21/SAMW25 TX** – This is the line going from the microcontroller to the EDBG (the EDBG’s RX pin) PB11.  
@@ -252,7 +252,7 @@ Those `pinmux_padX` macros map SERCOM pins to actual device pins that connect to
 
 ---
 
-## 2. Where to Attach / Solder on the Board: : PB10 (UART_TX)
+### 2. Where to Attach / Solder on the Board: : PB10 (UART_TX)
 Depending on your hardware revision, you have a few options:
 
 1. **Test Points or Header**: Many of the Xplained boards have small test pads or an unpopulated header that breaks out the SERCOM lines (TX/RX). Inspect the board silkscreen or the schematic to find “EDBG TX,” “EDBG RX,” or “SERCOM4 TX,” “SERCOM4 RX.”  
@@ -263,7 +263,7 @@ In all cases, also locate a **GND pin or test point** and connect that to the Sa
 
 ---
 
-## 3. Critical Logic Analyzer Settings
+### 3. Critical Logic Analyzer Settings
 When using the Saleae Logic software to decode UART traffic, configure:
 
 ![SALEA_Settings](IMAGESA07/SALEAE_ASYNC_Settings.png)
@@ -273,9 +273,13 @@ When using the Saleae Logic software to decode UART traffic, configure:
 3. **Data Format**: 8 data bits, No parity, 1 stop bit (8N1).  
 
 
-[!SALEA_Output](IMAGESA07/SALEAE_UART.png)
+![SAM_Connection](IMAGESA07/SAM_Saleae_Whole.jpeg)
+![SAM_Connection](IMAGESA07/SAM_Saleae_Connection.jpeg)
+
+![SALEA_Output](IMAGESA07/SALEAE_UART.png)
+
+LOGIG_ANALYSER_CAPTURE_FILE:
 [LOGIG_ANALYSER_CAPTURE_FILE](IMAGESA07/USART_LOGIC_ANYL.sal)
-LOGIG_ANALYSER_CAPTURE_FILE
 
 ---
 
