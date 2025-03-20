@@ -250,9 +250,12 @@ Those `pinmux_padX` macros map SERCOM pins to actual device pins that connect to
 ![WireTapPin](IMAGESA07/WireTapPin.png)
 [Reference for PIN: Pg 10](https://drive.google.com/drive/folders/1OKUS5nEYTnFtutdxYD2_j58JUhIHwzTN)
 
-[!SALEA_Output](IMAGESA07/SALEAE_UART.png)
+![SALEA_Output](IMAGESA07/SALEAE_UART.png)
 ![SALEA_Settings](IMAGESA07/SALEAE_ASYNC_Settings.png)
 [LOGIG_ANALYSER_CAPTURE_FILE](IMAGESA07/USART_LOGIC_ANYL.sal)
+
+Serial Monitor Output
+![Serial Saleae Output](IMAGESA07/Serial_Saleae_output.png)
 
 ---
 
