@@ -27,7 +27,7 @@
  * Includes
  ******************************************************************************/
 #include "SerialConsole.h"
-#include "CliThread.h"   // to access xRxSemaphore (or extern xRxSemaphore)
+#include "CliThread.h"   // to access xRxSemaphore (or extern xRxSemaphore) (ABHIK)
 
 /******************************************************************************
  * Defines
@@ -240,7 +240,7 @@ static void configure_usart_callbacks(void)
 void usart_read_callback(struct usart_module *const usart_module)
 {
 	// ToDo: Complete this function 
-	// Add the received character to the circular buffer
+	// Add the received character to the circular buffer (ABHIK)
 	circular_buf_put(cbufRx, latestRx);
 
 	// Kick off another read operation to continuously receive data
