@@ -286,6 +286,106 @@ LOGIG_ANALYSER_CAPTURE_FILE:
 ## 5. Complete the CLI
 
 
+```c
+/******************************************************************************
+ * Includes
+ ******************************************************************************/
+#include "CliThread.h"
+
+/******************************************************************************
+ * Globals / Statics
+ ******************************************************************************/
+static SemaphoreHandle_t xRxSemaphore = NULL;  // Used to signal that a character is ready
+
+/******************************************************************************
+ * CLI Thread
+ ******************************************************************************/
+void vCommandConsoleTask(void *pvParameters)
+{
+    // Create a counting semaphore with a max count that matches or exceeds
+    // your RX ring buffer size. Initial count is 0.
+    xRxSemaphore = xSemaphoreCreateCounting(512, 0);
+    configASSERT(xRxSemaphore != NULL);
+
+    // Register CLI commands here ...
+    FreeRTOS_CLIRegisterCommand(&xClearScreen);
+    FreeRTOS_CLIRegisterCommand(&xResetCommand);
+
+    // Print welcome, etc. omitted for brevity
+
+    // The main loop:
+    uint8_t cRxedChar[2], cInputIndex = 0;
+    // ...
+    // Existing variables: pcOutputString, pcInputString, etc.
+    // ...
+
+    for (;;)
+    {
+        // Block here until a character is received
+        FreeRTOS_read(&cRxedChar[0]);
+
+        // The rest of the CLI parsing logic remains the same
+        // (processing newline, storing characters, backspace, etc.)
+        // ...
+    }
+}
+```
+
+```c
+
+/**
+ * @brief  Blocks until a character is received into the ring buffer,
+ *         then reads one character out of the buffer.
+ * @param  character Pointer to store the retrieved character.
+ */
+static void FreeRTOS_read(char *character)
+{
+    // Wait indefinitely until the semaphore is given by the USART read callback
+    if (pdTRUE == xSemaphoreTake(xRxSemaphore, portMAX_DELAY))
+    {
+        // We now expect at least 1 character in the ring buffer.
+        // Pull one from the ring buffer with SerialConsoleReadCharacter().
+        // That returns 0 on success, -1 if the buffer is empty.
+        while (SerialConsoleReadCharacter((uint8_t*)character) == -1)
+        {
+            // Rare edge case: if the interrupt signaled but the buffer is empty,
+            // loop briefly (should rarely happen unless concurrency is involved).
+            // In practice, this loop ends immediately with a character.
+        }
+    }
+}
+
+```
+
+
+
+```c
+
+/**
+ * @brief Callback invoked after receiving one character. Puts character into ring buffer
+ *        and signals the CLI thread via semaphore.
+ * @param[in] usart_module Pointer to the USART module (interrupt context).
+ */
+
+#include "CliThread.h"   // to access xRxSemaphore (or extern xRxSemaphore)
+
+void usart_read_callback(struct usart_module *const usart_module)
+{
+    // Store the newly received character
+    circular_buf_put(cbufRx, latestRx);
+
+    // Continuously receive the next character
+    usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1);
+
+    // Notify the CLI thread a character is available
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xSemaphoreGiveFromISR(xRxSemaphore, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+```
+
+
 ## 6. Add CLI commands
 
 ## 7. Using Percepio
