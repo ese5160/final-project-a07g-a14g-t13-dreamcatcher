@@ -692,3 +692,8 @@ I also hocked up the SALEAE to the PB10 (UART_TX) and PB11 (UART_RX) to capture 
 
 
 ## 7. Using Percepio
+
+Issue
+![Part7](IMAGESA07/Part7.png)
+https://edstem.org/us/courses/70477/discussion/6405138
+https://edstem.org/us/courses/70477/discussion/6405165
