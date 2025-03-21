@@ -566,5 +566,9 @@ void vCommandConsoleTask(void *pvParameters)
 
 ```
 
+![Serial Output](IMAGESA07/Serial_output_6.png)
+![Serial Output](IMAGESA07/Part06_Saleae.png)
+[Video Link](https://drive.google.com/file/d/1hatFXYfW0LxrXtl-JJLKY-JkCKKs4x6V/view?usp=sharing)
+
 
 ## 7. Using Percepio
