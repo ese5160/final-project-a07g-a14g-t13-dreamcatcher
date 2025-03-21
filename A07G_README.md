@@ -571,7 +571,7 @@ void vCommandConsoleTask(void *pvParameters)
 [Video Link](https://drive.google.com/file/d/1hatFXYfW0LxrXtl-JJLKY-JkCKKs4x6V/view?usp=sharing)
 
 [SALEAE_OUTPUT](IMAGESA07/PART06_OUT_IN_Commands.sal)
-I also hocked up the SALEAE to the PB10 (UART_TX) and PB11 (UART_RX) to capture communication between serial port and MCU.
+I also hocked up the SALEAE to the PB10 (UART_TX) and PB11 (UART_RX) to capture communication between serial port and MCU. But I was unable to figure out, how to add Async Serial in the second channel in Logic 2.
 
 
 ## 7. Using Percepio
