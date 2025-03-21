@@ -125,9 +125,11 @@ The system software is designed to manage real-time data collection, processing,
 
 ### 2. Block Diagram
 ![Block Diagram](IMAGESA07/Block_Diagram.png)
+[Block Diagram Link](https://drive.google.com/file/d/1gllNwZhSaeiwowsaChJdHcsy-axFcwPM/view?usp=sharing)
 
 ### 3. Flowchart
 ![Flowchart](IMAGESA07/Flowchart.png)
+[Flowchart Link](https://drive.google.com/file/d/1tiFCrP0CsME1u2wKpLhrhfRFKMuwTjFO/view?usp=sharing)
 
 ## 2. Understanding the Starter Code
 
