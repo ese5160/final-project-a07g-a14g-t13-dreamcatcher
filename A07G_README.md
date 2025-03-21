@@ -11,6 +11,123 @@
 
 ## 1. Software Architecture
 
+### 1. Updated Hardware and Software Requirements Specification
+
+## Hardware Requirements Specification (HRS)
+
+### **Overview**:
+The IoT Plant Monitoring System is designed for real-time plant health monitoring and management using a combination of sensors and actuators. The system is powered by the SAMW25 microcontroller, which provides integrated Wi-Fi communication for data sharing and supports peripherals for environmental monitoring and actuation.  
+
+The hardware integrates soil moisture sensors, temperature and humidity sensors, a light sensor, motion sensor, air quality sensor, and a soil NPK sensor for precise plant health monitoring. Actuators, such as a water pump and a motion deterrent system, ensure automated responses to environmental changes. The system also features GPS for location tracking and a microSD card module for efficient data logging.
+
+
+### **Definitions and Abbreviations**:
+- **SAMW25**: Microcontroller with integrated Wi-Fi communication.
+- **RTOS**: Real-Time Operating System for sensor and actuator management.
+- **Li-ion**: Lithium-ion battery used for power.
+
+### **Functionality**:
+- **HRS 01**:  
+   The project shall use the SAMW25 microcontroller for processing, Wi-Fi communication, and interfacing with peripherals via I2C, SPI, UART and GPIO.
+
+- **HRS 02**:  
+   A **capacitive soil moisture sensor** shall measure soil water content with 1% resolution and ±3% accuracy. It shall communicate via I2C to trigger the water pump when soil moisture drops below 30%. We will be sensing the soil every 5 minutes to get most real time data.
+
+- **HRS 03**:  
+   A **DHT22 temperature and humidity sensor** shall monitor environmental conditions with ±0.5°C temperature accuracy (range: -20°C to 80°C) and ±2% humidity accuracy. Above 26°C, watering shall increase by 10% for every additional 5°C. This is sensor will use I2C for communication.
+
+- **HRS 04**:  
+   A **photodiode-based light sensor** shall measure light intensity (0–100,000 lux) with a sensitivity of ±2 lux. The sensor shall interface via ADC and provide data to recommend optimal plant placement, and also this will help use detect night and turn off moisture, NPK sensor and motion sensor to save power or user can override this using Web interface.
+
+- **HRS 05**:  
+   A **soil NPK sensor** shall measure nitrogen, phosphorus, and potassium levels (0–1999 mg/kg) with ±5% accuracy. It shall operate via I2C and require a **12V boost converter** for operation. Help to keep track when our plant need the fertilizer and which one.
+
+- **HRS 06**:  
+   A **DC water pump** (500 ml/min) shall be controlled via GPIO. The pump shall activate with a sensitivity of ±5% based on soil moisture levels and adjust flow based on environmental data, such as temperature and rainfall. We can control the timing for how long the pump going to water the plant and that will control the amount of water.
+
+- **HRS 07**:  
+   An **ultrasonic motion sensor** shall detect movement within a range of 50 centimeter and a sensitivity of ±0.3 +1% cm. It shall trigger a **buzzer or deterrent system** via GPIO for 5 seconds upon detecting motion. And operates on the voltage logic of 2.4 V ~ 5.5V and communicate via UART.
+
+- **HRS 08 (Optional)**:  
+   A **GPS module (Neo-6M)** shall log plant location with ±2.5m accuracy via UART. The GPS data shall be used to fetch weather information, enabling smarter watering decisions (e.g., no watering if rain is predicted).
+
+- **HRS 09**:  
+   The system shall run on a **3.7V, 2500mAh Li-ion battery** with a **DC-DC buck converter** for 3.3V regulation and **DC-DC buck-boost converter** for 5V regulation. The **NPK sensor** shall use a dedicated **boost converter** for 12–24V input. The battery shall support 48+ hours of operation under normal conditions.
+
+- **HRS 10**:  
+   A **microSD card module** shall be used for local data logging to overcome the SAMD21's 256KB memory limitation. The module shall store sensor data, including soil moisture, temperature, humidity, light intensity, NPK levels, and GPS coordinates, with timestamps. It shall interface with the SAMW25 microcontroller via SPI, supporting storage capacities of up to 32GB to ensure long-term data storage.
+
+- **HRS 11**:  
+   A **Motor controlled puppet** shall be used for animal/birds deterrent, this motor will be activated by ultrasonic motion sensor when any movement is detected within the range of 50 centimeter, we will control the motor using PWM.
+
+- **HRS 12**:
+   A power and A Wi-Fi LED shall be included in the system. When system is **ON** the power LED will glow and when our system have a stable connection over Wi-Fi, Wi-Fi LED will be **ON** showing the status of the system.
+
+- **HRS 12**:
+  A **RS485** shall be used for communication with the soil NPK sensor, converting RX/TX signals to UART. The **RS485** shall require a **12V boost converter** for operation.
+
+- **HRS 13**:
+  A **air quality sensor (SGP40)** shall be used to monitor the concentration of volatile organic compounds (VOCs) and air quality. It shall measure ethanol in clean air as a proxy gas, with a measurement range of 0 to 1,000 ppm. The sensor shall communicate via I2C.
+
+- **HRS 14**:
+  A **fan** shall be used to circulate air inside the PCB case and around the sensors to ensure stable and accurate readings for the temperature, humidity, and air quality sensors. The fan shall be on at all times to maintain consistent airflow.
+
+- **HRS 15**:
+  A **5V wall adapter** shall be used to power water pump, servo motor and fan. It shall provide a stable output with a minimum current rating of 1550 mA to ensure reliable operation of all connected components simultaneously.
+
+---
+
+## Software Requirements Specification (SRS)
+
+### **Overview**:
+The system software is designed to manage real-time data collection, processing, and actuation, ensuring efficient plant health monitoring and automated responses. It leverages Wi-Fi connectivity provided by the SAMW25 microcontroller for seamless integration with cloud platforms, enabling real-time data sharing and remote monitoring.
+
+### **Definitions and Abbreviations**:
+- **Web-Interface**: Quick Responsive platform for data sharing.
+- **Wi-Fi**: Wireless Fidelity for internet connectivity.
+- **GPS**: Global Positioning System for location tracking (Optional).
+
+### **Functionality**:
+- **SRS 01**:  
+   Sensor data shall be collected every 1 minute to monitor soil moisture, temperature, humidity, and light intensity. Data shall be stored in memory and transmitted for processing with a sampling accuracy of ±1%.
+
+- **SRS 02**:  
+   Wi-Fi connectivity shall transmit real-time plant health data, including soil moisture, temperature, humidity, and light intensity, to the cloud for remote monitoring and analysis.
+
+- **SRS 03**:  
+   Soil condition, including NPK levels, shall be monitored every one minute to ensure optimal nutrient levels (NPK ratio of 10-30-20 %) for healthy plant growth. Alerts shall be generated if values fall below recommended thresholds.
+
+- **SRS 04**:  
+   The water pump shall activate automatically when soil moisture levels drop below 30% and deactivate when moisture exceeds 60%. Pump activation shall be influenced by weather data fetched via GPS (if it going to rain then system will not water the plant).
+
+- **SRS 05**:  
+   The buzzer and puppet deterrent system shall activate for 5 seconds upon detecting motion near (within 50 cm radius of the plant) the plant using the ultrasonic sensor. Sensitivity adjustments shall be configurable by the user. And this can be manually switched off via a button.
+
+- **SRS 06**:  
+   GPS coordinates shall be logged for tracking plant locations, especially in large-scale setups. GPS data shall also be used to fetch weather information for optimizing irrigation decisions.
+
+- **SRS 07**:  
+   Notifications shall be sent to users via email, providing actionable insights such as fertilization needs, low/high temperature.
+
+- **SRS 08**:  
+   Plant health data, including environmental and soil conditions, shall be visualized on a web interface. The interface shall display real-time data, historical trends, and recommendations for plant care.
+
+- **SRS 09**:  
+   Data logging functionality shall store real-time sensor readings (soil moisture, temperature, humidity, light intensity, and NPK levels) along with timestamps and GPS coordinates.  
+   - Data shall be written to a **microSD card** using SPI communication.  
+   - Logged data shall be synchronized with the cloud whenever Wi-Fi connectivity is available.  
+   - Historical data shall be retrievable for trends and analysis, ensuring minimal data loss even during offline operation.  
+   - The system shall manage data efficiently to prevent SD card overflow by implementing a rolling storage mechanism (e.g., overwriting the oldest data when the card is full).
+
+- **SRS 10**:
+  The fan shall be on at all times to maintain consistent airflow to ensure stable and accurate readings for the temperature, humidity, and air quality sensors.
+
+
+### 2. Block Diagram
+![Block Diagram](IMAGESA07/Block_Diagram.png)
+
+### 3. Flowchart
+![Flowchart](IMAGESA07/Flowchart.png)
 
 ## 2. Understanding the Starter Code
 
