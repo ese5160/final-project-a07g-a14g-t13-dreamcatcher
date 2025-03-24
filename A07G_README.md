@@ -31,22 +31,22 @@ The hardware integrates soil moisture sensors, temperature and humidity sensors,
    The project shall use the SAMW25 microcontroller for processing, Wi-Fi communication, and interfacing with peripherals via I2C, SPI, UART and GPIO.
 
 - **HRS 02**:  
-   A **capacitive soil moisture sensor** shall measure soil water content with 1% resolution and ±3% accuracy. It shall communicate via I2C to trigger the water pump when soil moisture drops below 30%. We will be sensing the soil every 5 minutes to get most real time data.
+   A **capacitive soil moisture sensor** shall measure soil water content with 1% resolution and ±3% accuracy. It shall communicate via I2C to trigger the water pump when soil moisture drops below 30%. We will be sensing the soil every one minute to get most real time data.
 
 - **HRS 03**:  
-   A **DHT22 temperature and humidity sensor** shall monitor environmental conditions with ±0.5°C temperature accuracy (range: -20°C to 80°C) and ±2% humidity accuracy. Above 26°C, watering shall increase by 10% for every additional 5°C. This is sensor will use I2C for communication.
+   A **DHT22 temperature and humidity sensor** shall monitor environmental conditions with ±0.5°C temperature accuracy (range: -20°C to 80°C) and ±2% humidity accuracy. Above 26°C, watering shall increase by 10% for every additional 5°C. This sensor shall use I2C for communication.
 
 - **HRS 04**:  
-   A **photodiode-based light sensor** shall measure light intensity (0–100,000 lux) with a sensitivity of ±2 lux. The sensor shall interface via ADC and provide data to recommend optimal plant placement, and also this will help use detect night and turn off moisture, NPK sensor and motion sensor to save power or user can override this using Web interface.
+   A **photodiode-based light sensor** shall measure light intensity (0–100,000 lux) with a sensitivity of ±2 lux. The sensor shall interface via ADC and provide data to recommend optimal plant placement, and also this will help detect night and turn off moisture, NPK sensor and motion sensor to save power or user can override this using Web interface.
 
 - **HRS 05**:  
-   A **soil NPK sensor** shall measure nitrogen, phosphorus, and potassium levels (0–1999 mg/kg) with ±5% accuracy. It shall operate via I2C and require a **12V boost converter** for operation. Help to keep track when our plant need the fertilizer and which one.
+   A **soil NPK sensor** shall measure nitrogen, phosphorus, and potassium levels (0–1999 mg/kg) with ±5% accuracy. It shall operate via I2C through a RS485 and require a **12V boost converter** for operation. It helps to keep track when our plant needs the fertilizer and which one.
 
 - **HRS 06**:  
-   A **DC water pump** (500 ml/min) shall be controlled via GPIO. The pump shall activate with a sensitivity of ±5% based on soil moisture levels and adjust flow based on environmental data, such as temperature and rainfall. We can control the timing for how long the pump going to water the plant and that will control the amount of water.
+   A **DC water pump** (500 ml/min) shall be controlled via GPIO. The pump shall activate with a sensitivity of ±5% based on soil moisture levels and adjust flow based on environmental data, such as temperature and rainfall. We can control the timing for how long the pump is going to water the plant and that will control the amount of water.
 
 - **HRS 07**:  
-   An **ultrasonic motion sensor** shall detect movement within a range of 50 centimeter and a sensitivity of ±0.3 +1% cm. It shall trigger a **buzzer or deterrent system** via GPIO for 5 seconds upon detecting motion. And operates on the voltage logic of 2.4 V ~ 5.5V and communicate via UART.
+   A **PIR based motion sensor** shall detect movement within a range of 50 centimeters and a sensitivity of ±0.3 +1% cm. It shall trigger a **buzzer or deterrent system** via GPIO for 5 seconds upon detecting motion. It operates on the voltage logic of 2.4 V ~ 5.5V and communicates via UART.
 
 - **HRS 08 (Optional)**:  
    A **GPS module (Neo-6M)** shall log plant location with ±2.5m accuracy via UART. The GPS data shall be used to fetch weather information, enabling smarter watering decisions (e.g., no watering if rain is predicted).
@@ -58,7 +58,7 @@ The hardware integrates soil moisture sensors, temperature and humidity sensors,
    A **microSD card module** shall be used for local data logging to overcome the SAMD21's 256KB memory limitation. The module shall store sensor data, including soil moisture, temperature, humidity, light intensity, NPK levels, and GPS coordinates, with timestamps. It shall interface with the SAMW25 microcontroller via SPI, supporting storage capacities of up to 32GB to ensure long-term data storage.
 
 - **HRS 11**:  
-   A **Motor controlled puppet** shall be used for animal/birds deterrent, this motor will be activated by ultrasonic motion sensor when any movement is detected within the range of 50 centimeter, we will control the motor using PWM.
+   A **Motor controlled puppet** shall be used for animal/bird deterrent, this motor will be activated by a PIR based Motion sensorr when any movement is detected within the range of 50 centimeters, the motor shall be controled by using PWM.
 
 - **HRS 12**:
    A power and A Wi-Fi LED shall be included in the system. When system is **ON** the power LED will glow and when our system have a stable connection over Wi-Fi, Wi-Fi LED will be **ON** showing the status of the system.
@@ -73,7 +73,7 @@ The hardware integrates soil moisture sensors, temperature and humidity sensors,
   A **fan** shall be used to circulate air inside the PCB case and around the sensors to ensure stable and accurate readings for the temperature, humidity, and air quality sensors. The fan shall be on at all times to maintain consistent airflow.
 
 - **HRS 15**:
-  A **5V wall adapter** shall be used to power water pump, servo motor and fan. It shall provide a stable output with a minimum current rating of 1550 mA to ensure reliable operation of all connected components simultaneously.
+  A **5V wall adapter** shall be used to power a water pump, servo motor and fan. It shall provide a stable output with a minimum current rating of 1550 mA to ensure reliable operation of all connected components simultaneously.
 
 ---
 
@@ -89,19 +89,19 @@ The system software is designed to manage real-time data collection, processing,
 
 ### **Functionality**:
 - **SRS 01**:  
-   Sensor data shall be collected every 1 minute to monitor soil moisture, temperature, humidity, and light intensity. Data shall be stored in memory and transmitted for processing with a sampling accuracy of ±1%.
+   Sensor data shall be collected every one minute to monitor soil moisture, temperature, humidity, and light intensity. Data shall be stored in memory and transmitted for processing with a sampling accuracy of ±1%.
 
 - **SRS 02**:  
    Wi-Fi connectivity shall transmit real-time plant health data, including soil moisture, temperature, humidity, and light intensity, to the cloud for remote monitoring and analysis.
 
 - **SRS 03**:  
-   Soil condition, including NPK levels, shall be monitored every one minute to ensure optimal nutrient levels (NPK ratio of 10-30-20 %) for healthy plant growth. Alerts shall be generated if values fall below recommended thresholds.
+   Soil conditions, including NPK levels, shall be monitored every one minute to ensure optimal nutrient levels (NPK ratio of 10-30-20 %) for healthy plant growth. Alerts shall be generated if values fall below recommended thresholds.
 
 - **SRS 04**:  
-   The water pump shall activate automatically when soil moisture levels drop below 30% and deactivate when moisture exceeds 60%. Pump activation shall be influenced by weather data fetched via GPS (if it going to rain then system will not water the plant).
+   The water pump shall activate automatically when soil moisture levels drop below 30% and deactivate when moisture exceeds 60%. Pump activation shall be influenced by weather data fetched via GPS (if it is going to rain then the system shall not water the plant).
 
 - **SRS 05**:  
-   The buzzer and puppet deterrent system shall activate for 5 seconds upon detecting motion near (within 50 cm radius of the plant) the plant using the ultrasonic sensor. Sensitivity adjustments shall be configurable by the user. And this can be manually switched off via a button.
+   The buzzer and puppet deterrent system shall activate for 5 seconds upon detecting motion near (within 50 cm radius of the plant) the plant using the PIR based Motion sensorr. Sensitivity adjustments shall be configurable by the user. And this can be manually switched off via a button.
 
 - **SRS 06**:  
    GPS coordinates shall be logged for tracking plant locations, especially in large-scale setups. GPS data shall also be used to fetch weather information for optimizing irrigation decisions.
@@ -125,10 +125,12 @@ The system software is designed to manage real-time data collection, processing,
 
 ### 2. Block Diagram
 ![Block Diagram](IMAGESA07/Block_Diagram.png)
+
 [Block Diagram Link](https://drive.google.com/file/d/1gllNwZhSaeiwowsaChJdHcsy-axFcwPM/view?usp=sharing)
 
 ### 3. Flowchart
 ![Flowchart](IMAGESA07/Flowchart.png)
+
 [Flowchart Link](https://drive.google.com/file/d/1tiFCrP0CsME1u2wKpLhrhfRFKMuwTjFO/view?usp=sharing)
 
 ## 2. Understanding the Starter Code
